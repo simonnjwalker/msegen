@@ -25,6 +25,8 @@ namespace msegen
             string imgoutput = @"C:\SNJW\tools\mqwip\output\temp";
             string imgresized = @"C:\SNJW\tools\mqwip\output\temp\resized";
             string imgcropped = @"C:\SNJW\tools\mqwip\output\temp\cropped";
+            string docximgsource = @"C:\SNJW\tools\mqwip\source\2022xmas";
+            string docximgoutput = @"C:\SNJW\tools\mqwip\output\2022xmas.docx";
             string msedest = @"C:\SNJW\tools\mqwip\output\test.mse-set";
             string apikey = System.IO.File.ReadAllText(@"C:\SNJW\admin\info\apikeys\openai.apikey.txt");
             var xl = new xlsxhandler();
@@ -32,47 +34,48 @@ namespace msegen
             var tx = new txthandler();
             var ig = new imghandler();
             var ms = new msehandler();
+            var dx = new docxhandler();
             var dl = new dallehandler(apikey);
 
-
-            //xlsource = @"C:\SNJW\tools\mqwip\source\clocks.xlsx";
-
-            // string bob = @"C:\SNJW\code\mq\source\wilhelt.json";
-            // Card card = JsonConvert.DeserializeObject<Card>(File.ReadAllText(bob));
+            // extra bits: load the outputs into docx files
+            // do this once you have used the MSE app to export PNG files
+            // dx.SaveMultiPageImgDocument(docximgsource,docximgoutput);
             // return;
 
-            // xlsource = @"C:\SNJW\tools\mqwip\source\liliana.xlsx";
 
             // build an empty list of cards
             List<CardInfo> cards = new List<CardInfo>();
 
-            // fill this list either from a text file or an XLSX
+            // fill this list either from a text file or from an XLSX
             cards.AddRange(xl.GetCardInfoList(xlsource));
             // cards.AddRange(tx.GetCardInfoList(deck));
 
 
-            // go to scryfall and update the cardjson field in the data
-            // from the multiverseid (if known) or alternatively the rawname field
+            // go to scryfall and download the cardjson field into the cards collection
+            // the query is made from from the multiverseid (if known) or alternatively the name field
+            // if the name field, it will try and grab a multiverseid
+            // note that it is not always possible to get multiverseids from a name automatically
+            //  so you should check all of them
             // await sf.UpdateCardJson(cards);
 
-            // update the card object from the Json
+            // update the card object from the Json field in the cards collection
             sf.UpdateFromCardJson(cards);
 
             // use Dall-E to generate images based on the art desc then download and update the file field "1024x1024" "256x256"
-            await dl.UpdateImgPathFromArtDesc(cards,imgoutput,"1024x1024");
+            // await dl.UpdateImgPathFromArtDesc(cards,imgoutput,"1024x1024");
 
             // alternatively, download the image from scryfall's art crop
-            //await sf.UpdateImgPathFromCardJson(cards,imgoutput);
+            // await sf.UpdateImgPathFromCardJson(cards,imgoutput);
 
             // scale the images to the height required then crop to the width required
-            ig.ResizeImagesToHeight(cards,imgresized,1672);
-            ig.CropImagesToWidth(cards,imgcropped,1288);
+            // ig.ResizeImagesToHeight(cards,imgresized,1672);
+            // ig.CropImagesToWidth(cards,imgcropped,1288);
 
             // create the msefile
             ms.SaveMse(cards,msedest);
 
             // save the updated card info to a new XLSX file
-            xl.SaveCardInfoList(cards,xldest);
+            //xl.SaveCardInfoList(cards,xldest);
 
             Console.WriteLine("Finished.");
         }
@@ -110,10 +113,12 @@ namespace msegen
             cards.Add(new CardInfo(){name = "Fire", multiverseid=27165});
             cards.Add(new CardInfo(){name = "Liliana of the Veil", multiverseid=235597});
             cards.Add(new CardInfo(){name = "Island", multiverseid=293});
+            cards.Add(new CardInfo(){name = "Mountain", multiverseid=73958});
             cards.Add(new CardInfo(){name = "Lighthouse Chronologist"});
             cards.Add(new CardInfo(){name = "Urza's Saga"});
-
+            cards.Add(new CardInfo(){name = "Karakas", multiverseid=1701});
             cards.Add(new CardInfo(){name = "Jeska, Thrice Reborn"});
+            cards.Add(new CardInfo(){name = "Dryad Arbor"});
 
 
             // cards.Add(new CardInfo(){name = "The First Iroan Games"});
