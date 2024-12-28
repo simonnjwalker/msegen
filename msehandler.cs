@@ -30,15 +30,15 @@ using mq;
 
 public class msehandler
 {
-    public string msesetdest = @"C:\SNJW\tools\mqwip\output\test.mse-set";
-    public string docxdest = @"C:\SNJW\tools\mqwip\output\test.docx";
+    public string msesetdest = @"C:\SNJW\code\mqwip\output\test.mse-set";
+    public string docxdest = @"C:\SNJW\code\mqwip\output\test.docx";
     // public string temp = @"C:\SNJW\tools\mqwip\output\temp";
-    public string gallery = @"C:\SNJW\tools\mqwip\source\art";
-    public string imagefile = @"C:\SNJW\tools\mqwip\output\gallery\<<multiverseid>>_<<width>>x<<height>>_<<cardname>>.png";
-    public string insetfile = @"C:\SNJW\tools\mqwip\source\inset.png";
-    public string symbolfile = @"C:\SNJW\tools\mqwip\source\symbol2.mse-symbol";
-    public string xlsxsource = @"C:\SNJW\tools\mqwip\source\source.xlsx";
-    public string xlsxdest = @"C:\SNJW\tools\mqwip\source\dest.xlsx";
+    public string gallery = @"C:\SNJW\code\mqwip\source\art";
+    public string imagefile = @"C:\SNJW\code\mqwip\output\gallery\<<multiverseid>>_<<width>>x<<height>>_<<cardname>>.png";
+    public string insetfile = @"C:\SNJW\code\mqwip\source\inset.png";
+    public string symbolfile = @"C:\SNJW\code\mqwip\source\mse-symbol\townsville-angel.mse-symbol";
+    public string xlsxsource = @"C:\SNJW\code\mqwip\source\source.xlsx";
+    public string xlsxdest = @"C:\SNJW\code\mqwip\source\dest.xlsx";
 
     public bool fetchmultiverseid = true;
     public bool fetchsfjson = true;
@@ -51,11 +51,12 @@ public class msehandler
     public int width = 1288;
     public string copyright = "Townsville Community Cube";
     List<string> supertypes = new List<string>(){"Legendary","Snow","Basic"};
-    List<string> types = new List<string>(){"Tribal","Artifact","Enchantment","Instant","Sorcery","Land","Planeswalker", "Creature"};
-    List<string> spelltypes = new List<string>(){"Arcane","Adventure","Trap","Lesson"};
-    List<string> enchantmenttypes = new List<string>(){"Aura","Saga","Cartouche","Curse","Rune","Shard","Shrine","Rune"};
-    List<string> artifacttypes = new List<string>(){"Equipment","Vehicle","Food","Clue","Contraption","Fortification","Gold","Treasure"};
-    List<string> landtypes = new List<string>(){"Plains","Island","Swamp","Mountain","Forest","Desert","Gate","Lair","Locus","Urza's Mine","Urza's Power-Plant","Urza's Tower"};
+    List<string> types = new List<string>(){"Tribal","Kindred","Artifact","Enchantment","Instant","Sorcery","Land","Planeswalker", "Creature","Battle"};
+    List<string> spelltypes = new List<string>(){"Arcane","Adventure","Trap","Lesson","Chorus"};
+    List<string> enchantmenttypes = new List<string>(){"Aura","Saga","Cartouche","Curse","Rune","Shard","Shrine","Role","Class","Case","Room"};
+    List<string> artifacttypes = new List<string>(){"Attraction", "Blood", "Bobblehead", "Clue", "Contraption", "Equipment", "Food", "Fortification", "Gold", "Incubator", "Junk", "Map", "Powerstone", "Treasure", "Vehicle"};
+    List<string> landtypes = new List<string>(){"Plains","Island","Swamp","Mountain","Forest","Desert","Gate","Lair","Locus","Urza's Mine","Urza's Power-Plant","Urza's Tower","Sphere"};
+    List<string> battletypes = new List<string>(){"Siege"};
 
     // public List<mycard> LoadXlsx()
     // {
@@ -757,6 +758,10 @@ public class msehandler
             else if(enchantmenttypes.Contains(subtype))
             {
                 sub_type += "<word-list-enchantment>"+subtype+"</word-list-enchantment> ";
+            }
+            else if(battletypes.Contains(subtype))
+            {
+                sub_type += "<word-list-battle>"+subtype+"</word-list-battle> ";
             }
             else if(types.Contains("Planeswalker"))
             {

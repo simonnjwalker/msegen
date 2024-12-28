@@ -8,8 +8,8 @@ public class xlsxhandler
     public List<CardInfo> GetCardInfoList(string filepath)
     {
         List<CardInfo> output = new List<CardInfo>();
-        var xl = new Seamlex.Utilities.XlsxToDataSet();
-        var ds = xl.GetDataSetFromXlsx(filepath);
+        var xl = new Seamlex.Utilities.ExcelToData();
+        var ds = xl.ToDataSet(filepath);
         var dt = ds.Tables[0];
 
         foreach(System.Data.DataRow row in ds.Tables[0].Rows)
@@ -55,8 +55,8 @@ public class xlsxhandler
                 );
         }
 
-        var xl = new Seamlex.Utilities.XlsxToDataSet();
-        xl.CreateXlsxFileFromDataSet(ds,filepath);
+        var xl = new Seamlex.Utilities.ExcelToData();
+        xl.ToExcelFile(ds,filepath);
 
     }
 

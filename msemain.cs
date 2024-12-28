@@ -11,7 +11,7 @@ namespace msegen
         static async Task Main(string[] args)
         {
             Console.WriteLine("Started ...");
-            bool rundemo = true;
+            bool rundemo = false;
             if(rundemo)
             {
                 var demo = new msegendemo();
@@ -20,14 +20,14 @@ namespace msegen
             }
 
             // string deck = @"C:\SNJW\code\mq\source\dimir.txt";
-            string xlsource = @"C:\SNJW\tools\mqwip\source\cards.xlsx";
-            string xldest = @"C:\SNJW\tools\mqwip\output\cards.xlsx";
-            string imgoutput = @"C:\SNJW\tools\mqwip\output\temp";
-            string imgresized = @"C:\SNJW\tools\mqwip\output\temp\resized";
-            string imgcropped = @"C:\SNJW\tools\mqwip\output\temp\cropped";
-            string docximgsource = @"C:\SNJW\tools\mqwip\source\2022xmas";
-            string docximgoutput = @"C:\SNJW\tools\mqwip\output\2022xmas.docx";
-            string msedest = @"C:\SNJW\tools\mqwip\output\test.mse-set";
+            string xlsource = @"C:\SNJW\code\mqwip\source\main.xlsx";
+            string xldest = @"C:\SNJW\code\mqwip\output\cards.xlsx";
+            string imgoutput = @"C:\SNJW\code\mqwip\output\temp";
+            string imgresized = @"C:\SNJW\code\mqwip\output\temp\resized";
+            string imgcropped = @"C:\SNJW\code\mqwip\output\temp\cropped";
+            string docximgsource = @"C:\snjw\code\mqwip\output\cardimages";
+            string docximgoutput = @"C:\snjw\code\mqwip\output\docx\2024vc.docx";
+            string msedest = @"C:\SNJW\code\mqwip\output\main.mse-set";
             string apikey = System.IO.File.ReadAllText(@"C:\SNJW\admin\info\apikeys\openai.apikey.txt");
             var xl = new xlsxhandler();
             var sf = new scryfallhandler();
@@ -39,8 +39,8 @@ namespace msegen
 
             // extra bits: load the outputs into docx files
             // do this once you have used the MSE app to export PNG files
-            // dx.SaveMultiPageImgDocument(docximgsource,docximgoutput);
-            // return;
+            //dx.SaveMultiPageImgDocument(docximgsource,docximgoutput);
+            //return;
 
 
             // build an empty list of cards
@@ -48,7 +48,6 @@ namespace msegen
 
             // fill this list either from a text file or from an XLSX
             cards.AddRange(xl.GetCardInfoList(xlsource));
-            // cards.AddRange(tx.GetCardInfoList(deck));
 
 
             // go to scryfall and download the cardjson field into the cards collection
@@ -56,7 +55,7 @@ namespace msegen
             // if the name field, it will try and grab a multiverseid
             // note that it is not always possible to get multiverseids from a name automatically
             //  so you should check all of them
-            // await sf.UpdateCardJson(cards);
+            await sf.UpdateCardJson(cards);
 
             // update the card object from the Json field in the cards collection
             sf.UpdateFromCardJson(cards);
@@ -65,17 +64,18 @@ namespace msegen
             // await dl.UpdateImgPathFromArtDesc(cards,imgoutput,"1024x1024");
 
             // alternatively, download the image from scryfall's art crop
-            // await sf.UpdateImgPathFromCardJson(cards,imgoutput);
+            //sf.donotdownload = true;
+            //await sf.UpdateImgPathFromCardJson(cards,imgoutput);
 
             // scale the images to the height required then crop to the width required
-            // ig.ResizeImagesToHeight(cards,imgresized,1672);
-            // ig.CropImagesToWidth(cards,imgcropped,1288);
+            //ig.ResizeImagesToHeight(cards,imgresized,1672);
+            //ig.CropImagesToWidth(cards,imgcropped,1288);
 
             // create the msefile
-            ms.SaveMse(cards,msedest);
+            //ms.SaveMse(cards,msedest);
 
             // save the updated card info to a new XLSX file
-            //xl.SaveCardInfoList(cards,xldest);
+            xl.SaveCardInfoList(cards,xldest);
 
             Console.WriteLine("Finished.");
         }

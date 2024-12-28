@@ -8,6 +8,7 @@ public class scryfallhandler
 {
     private readonly HttpClient client = new HttpClient();
 
+    public bool donotdownload = false;
     public void Message(string text)
     {
         Console.WriteLine(text);
@@ -50,7 +51,10 @@ public class scryfallhandler
                 string queryCardName = cardinfo.name.Replace(" ", "+");
                 url = "https://api.scryfall.com/cards/named?fuzzy=" + queryCardName;
             }
-            
+
+            client.DefaultRequestHeaders.Add("User-Agent", "msegen/1.0.3");
+            client.DefaultRequestHeaders.Add("Accept", "application/json;q=0.9,*/*;q=0.8");
+
             HttpResponseMessage responseid = 
                 await client.GetAsync(url);
 
@@ -116,7 +120,7 @@ public class scryfallhandler
             if((cardinfo?.cardjson ?? "") != "" && (cardinfo?.imagepath ?? "") == "")
             {
                 Card card = JsonConvert.DeserializeObject<Card>(cardinfo.cardjson);
-                string imageUrl = (card?.image_uris?.art_crop ?? "");
+                string imageUrl = card?.image_uris?.art_crop ?? "";
                 string outputfile = outputpath + '\\' + card.name
                     .Replace(" ","_")
                     .Replace(",","")
@@ -125,10 +129,31 @@ public class scryfallhandler
                     .Replace(";","")
                     + ".png";
 
+                // if double-sided, set the URL of the front face if this is the correct one
+                if(imageUrl == "" && (card?.multiverse_ids?.Count ?? 0) > 1  && (card?.card_faces?.Count ?? 0) > 1 )
+                {
+                    // the name in cardinfo can be checked against each card face
+                    foreach(var card_face in card.card_faces)
+                    {
+                        if(card_face?.name == cardinfo.name)
+                        {
+                            imageUrl = card_face?.image_uris?.art_crop ?? "";
+                            outputfile = outputpath + '\\' + cardinfo.name
+                                .Replace(" ","_")
+                                .Replace(",","")
+                                .Replace("/","")
+                                .Replace(":","")
+                                .Replace(";","")
+                                + ".png";
+                        }
+                    }
+                }
+
 
                 if(imageUrl != "")
                 {
-                    await this.DownloadImageAsPng(imageUrl,outputfile);
+                    if( donotdownload == false)
+                        await this.DownloadImageAsPng(imageUrl,outputfile);
                     cardinfo.imagepath = outputfile;
                 }
             }

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
   </PropertyGroup>
@@ -10,14 +10,20 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Graphics" Version="7.0.52" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="7.0.52" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RestSharp" Version="106.15" />
-    <PackageReference Include="Seamlex.Utilities.XlsxToDataSet" Version="1.0.0" />
-    <PackageReference Include="SkiaSharp" Version="2.88.3" />
+    <PackageReference Include="Seamlex.Utilities.ExcelToData" Version="1.0.6" />
+    <PackageReference Include="SkiaSharp" Version="2.88.6" />
     <!-- <PackageReference Include="Microsoft.Maui.Graphics" Version="7.0.52" />
     <PackageReference Include="Microsoft.Maui.Graphics.Skia" Version="7.0.52" />
     <PackageReference Include="SkiaSharp" Version="2.88.3" /> -->
-
   </ItemGroup>
-
+  <ItemGroup>
+      <None Update="angel.mse-symbol">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="inset.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+  </ItemGroup>
 </Project>

@@ -1,0 +1,59 @@
+﻿mse version: 0.3.5
+part:
+	type: shape
+	name: Ellipse
+	combine: subtract
+	point:
+		position: (0.3186802474,0.3689127108)
+		lock: direction
+		line after: curve
+		handle before: (-0.0111136355,0.2645427650)
+		handle after: (0.0039858982,-0.0948780928)
+	point:
+		position: (0.5183000839,0.1734990240)
+		lock: size
+		line after: curve
+		handle before: (-0.1062610987,-0.0040712933)
+		handle after: (0.1062610987,0.0040712933)
+	point:
+		position: (0.7034857067,0.3689127108)
+		lock: direction
+		line after: curve
+		handle before: (0.0039858982,-0.0948780928)
+		handle after: (-0.0111136355,0.2645427650)
+part:
+	type: shape
+	name: Triangle
+	combine: subtract
+	point:
+		position: (0.5044130979,0.2959545134)
+		lock: free
+		line after: line
+	point:
+		position: (0.7184518313,0.8143368570)
+		lock: free
+		line after: line
+	point:
+		position: (0.2903743646,0.8143368570)
+		lock: free
+		line after: line
+part:
+	type: shape
+	name: Square
+	combine: overlap
+	point:
+		position: (0.0969298246,0.0969298246)
+		lock: free
+		line after: line
+	point:
+		position: (0.0969298246,0.9074561404)
+		lock: free
+		line after: line
+	point:
+		position: (0.9074561404,0.9074561404)
+		lock: free
+		line after: line
+	point:
+		position: (0.9074561404,0.0969298246)
+		lock: free
+		line after: line
